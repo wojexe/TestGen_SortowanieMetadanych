@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "dependencies": {
+    "random-words": "^1.1.2",
+    "short-uuid": "^4.2.0"
+  },
+  "scripts": {
+    "gen": "node testGen.js"
+  }
+}
