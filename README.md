@@ -4,4 +4,4 @@ Do zadania **7_SortowanieMetadanych**, MP 2021/2022 UJ
 
 Testy generują się do folderu `./tests`, chyba, że zastąpimy wartość zmiennej `OUTPUT_FILE_PATH` odpowiednią ścieżką do pliku docelowego (kolejne foldery, w których plik ma się znajdować muszą istnieć).
 
-Aby wygenerować test, należy mieć zainstalowane `pnpm` (odpowiednio `npm`) i w głównym folderze sklonowanego repozytorium wpisać komendę `pnpm run gen` (odpowiednio `npm run gen`).
+Aby wygenerować test, należy mieć zainstalowane `pnpm` (odpowiednio `npm`) i w głównym folderze sklonowanego repozytorium wpisać komendy `pnpm install` oraz `pnpm run gen` (odpowiednio `npm install` oraz `npm run gen`).

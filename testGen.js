@@ -12,19 +12,13 @@ const FILE_ENCODING = "ascii";
 import randomWords from "random-words";
 import short from "short-uuid";
 import * as fs from "fs/promises";
-import { access } from "fs";
 
 async function saveToFile(data) {
   let path = OUTPUT_FILE_PATH;
 
   if (path === "") {
-    let directoryExists = true;
-
-    access("./tests", (e) => {
-      if (e !== null) directoryExists = false;
-    });
-
-    if (!directoryExists) await fs.mkdir("tests");
+    // If directory "./tests" does not exist, create one
+    await fs.access("./tests").catch(async () => await fs.mkdir("tests"));
 
     path = "./tests/" + short().new() + ".in";
   }
