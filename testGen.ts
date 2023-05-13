@@ -1,38 +1,36 @@
 // Generator testow do zadania 07_SortowanieMetadanych
 
-const OUTPUT_FILE_PATH = "";
+const OUTPUT_DIR = "./tests";
 const TEST_COUNT = 3;
 
-const maxRows = 10e5;
+const maxRows = 1e5;
 const maxColumns = 15;
-const numberMagn = 10e4;
+const numberMagn = 1e4;
 
 const FILE_ENCODING = "ascii";
 
-import randomWords from "random-words";
-import short from "short-uuid";
+import words from "random-words"; // bad types
+import { nanoid } from "nanoid";
 import * as fs from "fs/promises";
+import path from "path";
 
-async function saveToFile(data) {
-  let path = OUTPUT_FILE_PATH;
+async function saveToFile(data: string) {
+  let filepath: string;
 
-  if (path === "") {
-    // If directory "./tests" does not exist, create one
-    await fs.access("./tests").catch(async () => await fs.mkdir("tests"));
-
-    path = "./tests/" + short().new() + ".in";
+  try {
+    await fs.access(OUTPUT_DIR);
+  } catch (e) {
+    // Try to create that directory if it's not accessible
+    await fs.mkdir(OUTPUT_DIR, { recursive: true });
   }
 
-  const handle = await fs
-    .open(path, "w")
-    .catch((e) => console.error(`error ${e}`));
+  filepath = path.join(OUTPUT_DIR, nanoid(8) + ".in");
 
-  await handle
-    .writeFile(data, { encoding: FILE_ENCODING })
-    .catch((e) => console.error(`errror ${e}`));
+  const handle = await fs.open(filepath, "w");
+  await handle.writeFile(data, { encoding: FILE_ENCODING });
 }
 
-function generate(testCount) {
+function generate(testCount: number) {
   let test = "";
 
   test += testCount + "\n";
@@ -46,7 +44,8 @@ function generate(testCount) {
 
     test += `${rowCount},${colSortBy},${isDescending ? "-1" : "1"}\n`;
 
-    test += randomWords(columnCount).join(",") + "\n";
+    // @ts-ignore
+    test += words(columnCount).join(",") + "\n";
 
     let isInteger = Array.from(
       { length: columnCount },
@@ -56,7 +55,8 @@ function generate(testCount) {
     test += Array.from({ length: rowCount }, (_) =>
       Array(...isInteger)
         .map((isInt) =>
-          isInt ? Math.floor(Math.random() * numberMagn) : randomWords()
+          // @ts-ignore
+          isInt ? Math.floor(Math.random() * numberMagn) : words(1)[0]
         )
         .join(",")
     ).join("\n");
